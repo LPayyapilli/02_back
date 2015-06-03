@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_digest, null: false, index: { unique: true }
       t.string :first_name, null: false
       t.string :last_name, null: false
-      t.string :token, null: false, index: { uniquw: true }
+      t.string :token, null: false, index: { unique: true }
       t.timestamps
     end
   end
