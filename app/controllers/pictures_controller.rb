@@ -1,4 +1,4 @@
-class PicturesController < ApplicationController
+class PicturesController < ApiController
   # before_action is a Rails method that will invoke the method argument
   before_action :set_user
 

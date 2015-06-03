@@ -9,4 +9,5 @@ class Picture < ActiveRecord::Base
                 bucket: ENV['bucket'],
                 :aws_access_key => ENV['aws_access_key'],
                 :aws_secret_key => ENV['aws_secret_key']}
+  validates_attachment :image, content_type: { content_type: /\Aimage\/.*\Z/ }
 end
