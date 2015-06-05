@@ -20,6 +20,8 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.1)
+    active_model_serializers (0.9.3)
+      activemodel (>= 3.2)
     activejob (4.2.1)
       activesupport (= 4.2.1)
       globalid (>= 0.3.0)
@@ -62,6 +64,9 @@ GEM
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
     debug_inspector (0.0.2)
+    dotenv (2.0.1)
+    dotenv-rails (2.0.1)
+      dotenv (= 2.0.1)
     erubis (2.7.0)
     execjs (2.5.2)
     globalid (0.3.5)
@@ -164,10 +169,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.9.3)
   aws-sdk (~> 1.6)
   bcrypt
   byebug
   coffee-rails (~> 4.1.0)
+  dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
   paperclip (~> 4.2)

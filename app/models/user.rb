@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   has_secure_password
-  has_many :pictures
+  has_many :pictures, dependent: :destroy
   has_attached_file :avatar, :styles => { :medium => '300x300>', :thumb => '100x100>' }, :default_url => '/images/:style/missing.png'
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   validates :email, uniqueness: true
@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
 
   # unconditionally create and set a new token
   def new_token
-    update_columns(token: set_token)
+    update_columns(token: set_token, updated_at: Time.current)
   end
 
   # expire old token

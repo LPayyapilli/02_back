@@ -1,16 +1,12 @@
 class PicturesController < ApiController
-  # before_action is a Rails method that will invoke the method argument
-  before_action :set_user
+  # before_action :set_user
 
   def index
     # retrieve the user for the pictures
-    @user = User.find(params[:user_id])
-
-    # retrieve the users pictures
-    @picture = @user.pictures
+    @pictures = current_user.pictures
 
     # return the JSON representation of this user's pictures
-    render json: @picture
+    render json: @pictures
   end
 
   # GET /users/:user_id/picture/:id
@@ -28,8 +24,7 @@ class PicturesController < ApiController
 
   def create
     # use strong params to make sure that users dont do a SQL injection attack
-    @picture = @user.picture.build(picture_params)
-
+    @picture = @current_user.pictures.new(picture_params)
     if @picture.save
       render json: @picture, status: :created
     else
@@ -37,8 +32,10 @@ class PicturesController < ApiController
     end
   end
 
+  # DELETE /users/picture/:id
+
   def destroy
-    @picture = @user.pictures.find(params[:id])
+    @picture = @current_user.pictures.find(params[:id])
     @picture.destroy
     head :no_content
   end
@@ -46,7 +43,7 @@ class PicturesController < ApiController
   private
 
   def picture_params
-    params.require(:picture).permit(:name)
+    params.permit(:name, :image)
   end
 
   def set_user

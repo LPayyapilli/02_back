@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150602165022) do
+ActiveRecord::Schema.define(version: 20150531174912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,18 +29,13 @@ ActiveRecord::Schema.define(version: 20150602165022) do
 
   add_index "pictures", ["user_id"], name: "index_pictures_on_user_id", using: :btree
 
-  create_table "sessions", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string   "username"
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "token"
+    t.string   "username",            null: false
+    t.string   "email",               null: false
+    t.string   "password_digest",     null: false
+    t.string   "first_name",          null: false
+    t.string   "last_name",           null: false
+    t.string   "token",               null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "avatar_file_name"
@@ -48,6 +43,11 @@ ActiveRecord::Schema.define(version: 20150602165022) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["password_digest"], name: "index_users_on_password_digest", unique: true, using: :btree
+  add_index "users", ["token"], name: "index_users_on_token", unique: true, using: :btree
+  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   add_foreign_key "pictures", "users"
 end

@@ -7,7 +7,8 @@ class Picture < ActiveRecord::Base
               path: "/:style/:id/:filename",
               s3_credentials: {
                 bucket: ENV['bucket'],
-                :aws_access_key => ENV['aws_access_key'],
-                :aws_secret_key => ENV['aws_secret_key']}
+                access_key_id: ENV['aws_access_key'],
+                secret_access_key: ENV['aws_secret_key']
+              }
   validates_attachment :image, content_type: { content_type: /\Aimage\/.*\Z/ }
 end
