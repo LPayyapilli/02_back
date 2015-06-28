@@ -13190,3 +13190,45 @@ Processing by AuthController#login as HTML
   [1m[36mUser Load (0.4ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1[0m  [["email", "luke@luke.com"]]
   [1m[35mSQL (4.6ms)[0m  UPDATE "users" SET "token" = '2429dfc9980a885d2f60d9992f10afd3', "updated_at" = '2015-06-08 16:31:05.900508' WHERE "users"."id" = $1  [["id", 3]]
 Completed 200 OK in 110ms (Views: 2.9ms | ActiveRecord: 5.0ms)
+
+
+Started POST "/login" for ::1 at 2015-06-08 13:43:00 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (1.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by AuthController#login as HTML
+  Parameters: {"credentials"=>{"email"=>"luke@luke.com", "password"=>"[FILTERED]"}, "auth"=>{"credentials"=>{"email"=>"luke@luke.com", "password"=>"[FILTERED]"}}}
+  [1m[35mUser Load (1.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."email" = $1 LIMIT 1  [["email", "luke@luke.com"]]
+  [1m[36mSQL (19.1ms)[0m  [1mUPDATE "users" SET "token" = '94620b0fabc3bb114b2861d31ca05fdf', "updated_at" = '2015-06-08 17:43:02.463591' WHERE "users"."id" = $1[0m  [["id", 3]]
+Completed 200 OK in 263ms (Views: 3.2ms | ActiveRecord: 49.4ms)
+
+
+Started GET "/pictures" for ::1 at 2015-06-08 13:43:03 -0400
+Processing by PicturesController#index as */*
+  [1m[35mUser Load (0.4ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."token" = $1 LIMIT 1  [["token", "94620b0fabc3bb114b2861d31ca05fdf"]]
+  [1m[36mPicture Load (0.9ms)[0m  [1mSELECT "pictures".* FROM "pictures" WHERE "pictures"."user_id" = $1[0m  [["user_id", 3]]
+Completed 200 OK in 79ms (Views: 18.9ms | ActiveRecord: 3.9ms)
+
+
+Started DELETE "/pictures/75" for ::1 at 2015-06-08 13:43:10 -0400
+Processing by PicturesController#destroy as HTML
+  Parameters: {"id"=>"75"}
+  [1m[35mUser Load (0.5ms)[0m  SELECT  "users".* FROM "users" WHERE "users"."token" = $1 LIMIT 1  [["token", "94620b0fabc3bb114b2861d31ca05fdf"]]
+  [1m[36mPicture Load (0.4ms)[0m  [1mSELECT  "pictures".* FROM "pictures" WHERE "pictures"."user_id" = $1 AND "pictures"."id" = $2 LIMIT 1[0m  [["user_id", 3], ["id", 75]]
+  [1m[35m (77.9ms)[0m  BEGIN
+[AWS S3 200 0.604537 0 retries] head_object(:bucket_name=>"imagebucketeer",:key=>"original/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+[AWS S3 200 0.105273 0 retries] head_object(:bucket_name=>"imagebucketeer",:key=>"large/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+[AWS S3 200 0.165579 0 retries] head_object(:bucket_name=>"imagebucketeer",:key=>"medium/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+  [1m[36mSQL (59.3ms)[0m  [1mDELETE FROM "pictures" WHERE "pictures"."id" = $1[0m  [["id", 75]]
+  [1m[35m (0.9ms)[0m  COMMIT
+[paperclip] deleting /original/75/11041739_10203565620285141_5299043444759637879_n.jpg
+[AWS S3 204 0.114352 0 retries] delete_object(:bucket_name=>"imagebucketeer",:key=>"original/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+[paperclip] deleting /large/75/11041739_10203565620285141_5299043444759637879_n.jpg
+[AWS S3 204 0.116245 0 retries] delete_object(:bucket_name=>"imagebucketeer",:key=>"large/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+[paperclip] deleting /medium/75/11041739_10203565620285141_5299043444759637879_n.jpg
+[AWS S3 204 0.121632 0 retries] delete_object(:bucket_name=>"imagebucketeer",:key=>"medium/75/11041739_10203565620285141_5299043444759637879_n.jpg")  
+
+Completed 204 No Content in 2088ms (ActiveRecord: 139.0ms)
